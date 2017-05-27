@@ -7,6 +7,7 @@ var {Todo}=require('./models/todo.js');
 var {User}=require('./models/user.js');
 
 var app=express();
+const port=process.env.PORT || 3000;
 // app.get('/',(req,res)=>{
 //   res.send('hello Express');
 // });
@@ -55,7 +56,7 @@ app.get('/todos/:id',(req,res)=>{
   })
 });
 
-app.listen(3008,()=>{
-  console.log('Started on port 3000');
+app.listen(port,()=>{
+  console.log('Started on port '+port);
 });
 module.exports={app};
