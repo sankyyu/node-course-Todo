@@ -7,7 +7,7 @@ var {Todo}=require('./models/todo.js');
 var {User}=require('./models/user.js');
 
 var app=express();
-const port=process.env.PORT || 3000;
+const port=process.env.PORT || 3012;
 // app.get('/',(req,res)=>{
 //   res.send('hello Express');
 // });
@@ -55,6 +55,25 @@ app.get('/todos/:id',(req,res)=>{
     res.status(404).send();
   })
 });
+
+app.delete('/todos/:id',(req,res)=>{
+  console.log(1);
+  var id=req.params.id;
+  console.log(id);
+  if(!ObjectID.isValid(id)){
+    return res.status(404).send();
+  }
+  Todo.findByIdAndRemove(id).then((doc)=>{
+    if(!doc){
+      return res.status(404).send();
+    }
+    res.status(200).send(doc);
+  }).catch((e)=>{
+    res.status(400).send();
+  });
+});
+
+
 
 app.listen(port,()=>{
   console.log('Started on port '+port);
