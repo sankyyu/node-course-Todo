@@ -49,7 +49,7 @@ app.get('/todos/:id',(req,res)=>{
       //console.log(2);
       return res.status(404).send();
     }
-    res.send(todo);
+    res.send({todo});
   }).catch((e)=>{
     //console.log(3);
     res.status(404).send();
@@ -57,18 +57,19 @@ app.get('/todos/:id',(req,res)=>{
 });
 
 app.delete('/todos/:id',(req,res)=>{
-  console.log(1);
+  //console.log(1);
   var id=req.params.id;
-  console.log(id);
+  //console.log(id);
   if(!ObjectID.isValid(id)){
     return res.status(404).send();
   }
-  Todo.findByIdAndRemove(id).then((doc)=>{
-    if(!doc){
+  Todo.findByIdAndRemove(id).then((todo)=>{
+    if(!todo){
       return res.status(404).send();
     }
-    res.status(200).send(doc);
+    res.status(200).send({todo});
   }).catch((e)=>{
+    console.log(e.message);
     res.status(400).send();
   });
 });
