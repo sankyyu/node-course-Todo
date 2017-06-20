@@ -38,6 +38,23 @@ UserSchema.methods.toJSON = function(){
   return _.pick(userObject,['_id','email']);
 };
 
+UserSchema.statics.findByToken=function(token){
+  var User=this;
+  var decoded;
+
+  try{
+    decode=jwt.verify(token,'abc123');
+  }catch(e){
+    return new Promise((resolve,reject)=>{
+      reject();
+    })
+  }
+  return user.findOne({
+    _id:decoded._id,
+    'tokens.token':token,
+    'tokens.access':'auth'
+  })
+};
 
 UserSchema.methods.generateAuthToken= function(){
   var user=this;
